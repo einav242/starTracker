@@ -38,7 +38,7 @@
         android:layout_width="200dp"
         android:layout_height="48dp"
         android:layout_marginStart="95dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginTop="30dp"
         android:autofillHints=""
         android:ems="10"
         android:hint="full name"
@@ -46,33 +46,30 @@
         android:minHeight="48dp"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/edtTxt2"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtMessage" />
 
     <EditText
         android:id="@+id/edtTxt2"
         android:layout_width="200dp"
         android:layout_height="48dp"
         android:layout_marginStart="95dp"
-        android:layout_marginEnd="107dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
         android:autofillHints=""
         android:ems="10"
-        android:hint="email"
+        android:hint="pasaword"
         android:inputType="textPassword"
         android:minHeight="48dp"
+        android:textColor="@color/white"
         android:textColorHint="@color/white"
-        android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
 
     <Button
         android:id="@+id/button3"
         android:layout_width="100dp"
         android:layout_height="50dp"
-        android:layout_marginBottom="384dp"
+        android:layout_marginBottom="400dp"
         android:text="@string/sing_up"
         android:textAllCaps="false"
         android:textColor="#CFD8DC"
@@ -88,13 +85,15 @@
         android:layout_width="200dp"
         android:layout_height="48dp"
         android:layout_marginStart="95dp"
-        android:layout_marginBottom="468dp"
+        android:layout_marginTop="5dp"
         android:ems="10"
+        android:hint="email"
         android:inputType="textPersonName"
-        android:text="pasaword"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:textColorHint="@color/white"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextName" />
 
     <Button
         android:id="@+id/button4"
