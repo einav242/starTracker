@@ -85,6 +85,7 @@ public class MainActivityView extends AppCompatActivity {
     }
     public void paasMenuActivity(User user){
         Intent intent=new Intent(MainActivityView.this, ActivityMenuView.class);
+        intent.putExtra("key",user.getId());
         startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));
         finish();
     }
