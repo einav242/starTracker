@@ -87,6 +87,7 @@ public class ActivityMenuView extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ActivityMenuView.this, addImageView.class);
+                intent.putExtra("key",id);
                 startActivity(intent);
                 finish();
             }

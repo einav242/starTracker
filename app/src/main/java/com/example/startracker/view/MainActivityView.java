@@ -69,7 +69,6 @@ public class MainActivityView extends AppCompatActivity {
         Toast.makeText(MainActivityView.this,msg, Toast.LENGTH_SHORT).show();
     }
     public void paasMenuActivity(User user){
-        System.out.println("hi333333333333");
         Intent intent=new Intent(MainActivityView.this, ActivityMenuView.class);
         intent.putExtra("key",user.getId());
         startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));
