@@ -30,6 +30,7 @@ public class MainActivityModel {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
+                    System.out.println("hi!!!!!!!!!!!!!");
                     checkUserAccesLevel(task.getResult().getUser().getUid());
                 } else {
                     controller.toast_controller("Log in Error: " + task.getException().getMessage());
@@ -45,6 +46,7 @@ public class MainActivityModel {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
+                    System.out.println("hi222222222222222222");
                     User user =  snapshot.getValue(User.class);
                     controller.passActivity_controller(user);
                 }

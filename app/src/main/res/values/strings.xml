@@ -16,4 +16,6 @@
     <string name="sing_up">Sing up</string>
     <string name="forgot_password">forgot_password</string>
     <string name="by_einav_benito">by einav benito</string>
+    <string name="enter_file_name">Enter file name</string>
+    <string name="choose_file">choose file</string>
 </resources>

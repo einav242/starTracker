@@ -17,6 +17,7 @@
     tools:layout_editor_absoluteY="-20dp"
     tools:visibility="visible">
 
+
     <TextView
         android:id="@+id/txtMessage"
         android:layout_width="wrap_content"
