@@ -22,6 +22,13 @@ public class signUpView extends AppCompatActivity {
     private Button loginUser;
     private signUpController controller;
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(signUpView.this , MainActivityView.class);
+        startActivity(intent);
+        finish();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

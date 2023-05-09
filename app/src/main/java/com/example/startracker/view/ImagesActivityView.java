@@ -1,5 +1,6 @@
 package com.example.startracker.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -28,6 +29,16 @@ public class ImagesActivityView extends AppCompatActivity {
     private ProgressBar mProgressCircle;
     private String id;
     private ImagesActivityController controller;
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(ImagesActivityView.this , addImageView.class);
+        intent.putExtra("key",id);
+        startActivity(intent);
+        finish();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

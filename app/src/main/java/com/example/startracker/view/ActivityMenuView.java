@@ -92,6 +92,15 @@ public class ActivityMenuView extends AppCompatActivity {
                 finish();
             }
         });
+
+        gallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ActivityMenuView.this, ImagesActivityView.class);
+                intent.putExtra("key",id);
+                startActivity(intent);
+            }
+        });
     }
 
 

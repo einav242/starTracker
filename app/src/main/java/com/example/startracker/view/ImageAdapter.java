@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -49,12 +50,15 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     public class ImageViewHolder extends RecyclerView.ViewHolder {
         public TextView textViewName;
         public ImageView imageView;
+        public Button delete;
+        public Button algo;
 
         public ImageViewHolder(View itemView) {
             super(itemView);
-
             textViewName = itemView.findViewById(R.id.text_view_name);
             imageView = itemView.findViewById(R.id.image_view_upload);
+            delete = itemView.findViewById(R.id.delete_Button);
+            algo = itemView.findViewById(R.id.algo_Button);
         }
     }
 }

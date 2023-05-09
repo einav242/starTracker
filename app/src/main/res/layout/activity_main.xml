@@ -73,7 +73,7 @@
         android:id="@+id/button2"
         android:layout_width="100dp"
         android:layout_height="50dp"
-        android:layout_marginBottom="360dp"
+        android:layout_marginBottom="380dp"
         android:text="@string/sing_in"
         android:textAllCaps="false"
         android:textColor="@color/white"
@@ -86,25 +86,10 @@
         tools:ignore="MissingConstraints,TextContrastCheck" />
 
     <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="60dp"
-        android:background="@android:color/transparent"
-        android:text="forgot password"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/button3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="TextContrastCheck" />
-
-    <Button
         android:id="@+id/button3"
         android:layout_width="100dp"
         android:layout_height="50dp"
-        android:layout_marginBottom="300dp"
+        android:layout_marginBottom="320dp"
         android:text="@string/sing_up"
         android:textAllCaps="false"
         android:textColor="#CFD8DC"

@@ -16,7 +16,6 @@ import android.widget.Toast;
 public class MainActivityView extends AppCompatActivity {
     private Button sing_in;
     private Button sing_up;
-    private Button forget;
     private EditText password;
     private EditText userName;
     MainActivityController controller;
@@ -28,7 +27,6 @@ public class MainActivityView extends AppCompatActivity {
         controller = new MainActivityController(this);
         sing_in = findViewById(R.id.button2);
         sing_up = findViewById(R.id.button3);
-        forget = findViewById(R.id.button);
         password = findViewById(R.id.edtTxt2);
         userName = findViewById(R.id.editTextName);
         sing_up.setOnClickListener(new View.OnClickListener() {
@@ -37,13 +35,7 @@ public class MainActivityView extends AppCompatActivity {
                 startActivity(new Intent(MainActivityView.this, signUpView.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));
             }
         });
-        forget.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivityView.this, forgetPasswordView.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));
-            }
 
-        });
 
         sing_in.setOnClickListener(new View.OnClickListener() {
             @Override

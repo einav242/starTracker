@@ -23,4 +23,12 @@ public class addImageController {
     public void uploadFileController(Bitmap imageBitmap, String name){
         this.model.upload(imageBitmap,name);
     }
+
+    public void uploadNewImageController(String path, String name) {
+        model.uploadNewImage(path, name);
+    }
+
+    public void setImageController(String toString) {
+        view.setImage(toString);
+    }
 }

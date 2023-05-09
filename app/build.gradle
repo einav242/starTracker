@@ -19,6 +19,7 @@ android {
             pip{
                 install "scipy"
                 install "opencv-python-headless"
+                install "requests"
             }
         }
         minSdk 26

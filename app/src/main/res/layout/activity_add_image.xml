@@ -10,9 +10,10 @@
         android:id="@+id/button_choose_image"
         android:layout_width="135dp"
         android:layout_height="58dp"
-        android:text="@string/choose_file"
+        android:text="Take a photo"
         android:layout_marginLeft="0dp"
         android:layout_marginTop="0dp"
+        android:textAllCaps="false"
         android:textColor="#D1C4E9" />
 
     <EditText
@@ -49,10 +50,12 @@
         android:id="@+id/button_upload"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="150dp"
+        android:layout_marginLeft="120dp"
         android:layout_marginTop="600dp"
+        android:backgroundTint="#D31D7B"
         android:minHeight="48dp"
-        android:text="Upload" />
+        android:text="Algorithm"
+        android:textAllCaps="false" />
 
     <Button
         android:id="@+id/text_view_show_uploads"
