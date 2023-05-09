@@ -21,9 +21,14 @@ public class ImagesActivityModel {
     private DatabaseReference mDatabaseRef;
     private List<Upload> mUploads;
 
-    public ImagesActivityModel(ImagesActivityController controller, String id) {
+    public ImagesActivityModel(ImagesActivityController controller, String id, int flag) {
         this.controller = controller;
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("Users").child(id).child("Uploads");
+        if(flag == 0){
+            mDatabaseRef = FirebaseDatabase.getInstance().getReference("Users").child(id).child("Uploads");
+        }
+        else{
+            mDatabaseRef = FirebaseDatabase.getInstance().getReference("Users").child(id).child("processed");
+        }
         mUploads = new ArrayList<>();
     }
 

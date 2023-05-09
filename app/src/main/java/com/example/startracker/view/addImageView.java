@@ -1,13 +1,12 @@
 package com.example.startracker.view;
 
 import android.Manifest;
-import android.content.ContentResolver;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -21,38 +20,23 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.View;
 
 import com.example.startracker.controller.addImageController;
-import com.example.startracker.entities.Upload;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.StorageTask;
-import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
-import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Date;
 
 public class addImageView extends AppCompatActivity {
     private static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -60,7 +44,6 @@ public class addImageView extends AppCompatActivity {
 
     private Button mButtonChooseImage;
     private Button mButtonUpload;
-    private Button mTextViewShowUploads;
     private EditText mEditTextFileName;
     private ImageView mImageView;
     private ProgressBar mProgressBar;
@@ -68,7 +51,11 @@ public class addImageView extends AppCompatActivity {
     private Bitmap imageBitmap;
     private addImageController controller;
     private PyObject pyobj;
-    private int flag;
+    private String refId;
+    private String refProcessedId;
+    private String storageId;
+    private String storageProcessedId;
+
 
     @Override
     public void onBackPressed() {
@@ -79,6 +66,7 @@ public class addImageView extends AppCompatActivity {
         finish();
     }
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,7 +75,6 @@ public class addImageView extends AppCompatActivity {
         if (extras != null) {
             this.id = extras.getString("key");
         }
-        flag = 0;
         this.controller = new addImageController(this,id);
 
         if(!Python.isStarted()){
@@ -96,8 +83,7 @@ public class addImageView extends AppCompatActivity {
         Python py = Python.getInstance();
         pyobj = py.getModule("script");
         mButtonChooseImage = findViewById(R.id.button_choose_image);
-        mButtonUpload = findViewById(R.id.button_upload);
-        mTextViewShowUploads = findViewById(R.id.text_view_show_uploads);
+        mButtonUpload = findViewById(R.id.button_algo);
         mEditTextFileName = findViewById(R.id.edit_text_file_name);
         mImageView = findViewById(R.id.image_view);
         mProgressBar = findViewById(R.id.progress_bar);
@@ -117,29 +103,16 @@ public class addImageView extends AppCompatActivity {
         mButtonUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(flag ==0){
                     if (TextUtils.isEmpty(mEditTextFileName.getText().toString())) {
                         mEditTextFileName.setError("name cannot be empty");
                         mEditTextFileName.requestFocus();
                     }
                     else{
-                        saveImageToStorage(imageBitmap);
                         controller.uploadFileController(imageBitmap,mEditTextFileName.getText().toString());
                     }
-                }
-                else{
-
-                }
-
             }
         });
 
-        mTextViewShowUploads.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openImagesActivity();
-            }
-        });
     }
 
     public void setToastView(String msg){
@@ -150,11 +123,6 @@ public class addImageView extends AppCompatActivity {
         mProgressBar.setProgress(num);
     }
 
-    private void openImagesActivity() {
-        Intent intent = new Intent(this, ImagesActivityView.class);
-        intent.putExtra("key",this.id);
-        startActivity(intent);
-    }
 
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -193,7 +161,6 @@ public class addImageView extends AppCompatActivity {
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
             imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
             File file = new File(getExternalFilesDir(null), fileName);
-            System.out.println("file: "+file.getPath().toString());
             try {
                 FileOutputStream fo = new FileOutputStream(file);
                 fo.write(bytes.toByteArray());
@@ -213,11 +180,25 @@ public class addImageView extends AppCompatActivity {
         controller.uploadNewImageController(path, mEditTextFileName.getText().toString());
     }
 
-    public void setImage(String ImageUrl){
-        Picasso.get().load(ImageUrl).into(mImageView);
-        this.mButtonUpload.setText("delete");
-        this.mButtonUpload.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY);
-        this.flag = 1;
+    public void pass_to_newImage(String ImageUrl, String[] names){
+        this.setToastView("Algorithm successful");
+        this.refProcessedId = names[1];
+        this.storageProcessedId = names[0];
+        Intent intent = new Intent(addImageView.this , newImageView.class);
+        intent.putExtra("key",id);
+        intent.putExtra("url",ImageUrl);
+        intent.putExtra("refId",this.refId);
+        intent.putExtra("storageId",this.storageId);
+        intent.putExtra("refProcessedId",this.refProcessedId);
+        intent.putExtra("storageProcessedId",this.storageProcessedId);
+        startActivity(intent);
+        finish();
+    }
+
+    public void getIdView(String[] names){
+        this.refId = names[1];
+        this.storageId = names[0];
+        saveImageToStorage(imageBitmap);
     }
 
 }

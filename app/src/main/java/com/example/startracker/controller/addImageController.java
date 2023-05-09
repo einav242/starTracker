@@ -28,7 +28,14 @@ public class addImageController {
         model.uploadNewImage(path, name);
     }
 
-    public void setImageController(String toString) {
-        view.setImage(toString);
+    public void setImageController(String toString, String[] names) {
+        view.pass_to_newImage(toString, names);
     }
+
+    public void getIdController(String[] names){
+        this.view.getIdView(names);
+    }
+
+
 }
+

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/back">
+
+
+    <ImageView
+        android:id="@+id/image_view"
+        android:layout_width="match_parent"
+        android:layout_height="619dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp" />
+
+    <Button
+        android:id="@+id/button_delete"
+        android:layout_width="98dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="620dp"
+        android:backgroundTint="#E80909"
+        android:minHeight="48dp"
+        android:text="Delete"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/button_save"
+        android:layout_width="98dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="620dp"
+        android:layout_marginEnd="158dp"
+        android:backgroundTint="#25BF2B"
+        android:minHeight="48dp"
+        android:text="Save "
+        android:textAllCaps="false"
+        android:textColor="@color/white" />
+
+    <Button
+        android:id="@+id/button_try_again"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="620dp"
+        android:layout_marginEnd="20dp"
+        android:text="Try again"
+        android:textAllCaps="false" />
+
+
+</RelativeLayout>

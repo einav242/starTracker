@@ -98,6 +98,17 @@ public class ActivityMenuView extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(ActivityMenuView.this, ImagesActivityView.class);
                 intent.putExtra("key",id);
+                intent.putExtra("flag","0");
+                startActivity(intent);
+            }
+        });
+
+        processed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ActivityMenuView.this, ImagesActivityView.class);
+                intent.putExtra("key",id);
+                intent.putExtra("flag","1");
                 startActivity(intent);
             }
         });

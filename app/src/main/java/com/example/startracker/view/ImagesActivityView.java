@@ -29,11 +29,12 @@ public class ImagesActivityView extends AppCompatActivity {
     private ProgressBar mProgressCircle;
     private String id;
     private ImagesActivityController controller;
+    private int flag;
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent intent = new Intent(ImagesActivityView.this , addImageView.class);
+        Intent intent = new Intent(ImagesActivityView.this , ActivityMenuView.class);
         intent.putExtra("key",id);
         startActivity(intent);
         finish();
@@ -46,8 +47,10 @@ public class ImagesActivityView extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             this.id = extras.getString("key");
+            this.flag =Integer.parseInt(extras.getString("flag")) ;
+
         }
-        this.controller = new ImagesActivityController(this, id);
+        this.controller = new ImagesActivityController(this, id, flag);
         mRecyclerView = findViewById(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -56,7 +59,7 @@ public class ImagesActivityView extends AppCompatActivity {
     }
 
     public void addAdapter(List<Upload> mUploads){
-        mAdapter = new ImageAdapter(ImagesActivityView.this, mUploads);
+        mAdapter = new ImageAdapter(ImagesActivityView.this, mUploads, this.flag);
         mRecyclerView.setAdapter(mAdapter);
         mProgressCircle.setVisibility(View.INVISIBLE);
     }

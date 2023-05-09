@@ -21,16 +21,23 @@ import java.util.List;
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
     private Context mContext;
     private List<Upload> mUploads;
+    private int flag;
 
-    public ImageAdapter(Context context, List<Upload> uploads) {
+    public ImageAdapter(Context context, List<Upload> uploads, int flag) {
         mContext = context;
         mUploads = uploads;
+        this.flag = flag;
     }
 
     @Override
     public ImageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(mContext).inflate(R.layout.image_item, parent, false);
-        return new ImageViewHolder(v);
+        View v;
+        if(this.flag == 0){
+            v = LayoutInflater.from(mContext).inflate(R.layout.image_item, parent, false);
+        }else{
+            v = LayoutInflater.from(mContext).inflate(R.layout.image_processed_item, parent, false);
+        }
+        return new ImageViewHolder(v, this.flag);
     }
 
     @Override
@@ -53,12 +60,15 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         public Button delete;
         public Button algo;
 
-        public ImageViewHolder(View itemView) {
+
+        public ImageViewHolder(View itemView, int flag) {
             super(itemView);
             textViewName = itemView.findViewById(R.id.text_view_name);
             imageView = itemView.findViewById(R.id.image_view_upload);
             delete = itemView.findViewById(R.id.delete_Button);
-            algo = itemView.findViewById(R.id.algo_Button);
+            if(flag == 0){
+                algo = itemView.findViewById(R.id.algo_Button);
+            }
         }
     }
 }

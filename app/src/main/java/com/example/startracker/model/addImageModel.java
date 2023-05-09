@@ -42,6 +42,7 @@ public class addImageModel {
         this.controller = controller;
         mStorageRef = FirebaseStorage.getInstance().getReference("Uploads").child(id);
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("Users").child(id).child("Uploads");
+
     }
 
     public void upload(Bitmap imageBitmap, String name){
@@ -54,8 +55,10 @@ public class addImageModel {
 
     public void uploadFile(Bitmap imageBitmap, String name) {
         if (imageBitmap!=null) {
+            String names[] = new String[2];
             long time = new Date().getTime();
             StorageReference imageRef = mStorageRef.child(time + "");
+            names[0] = time + "";
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
             byte[] imageData = baos.toByteArray();
@@ -78,7 +81,8 @@ public class addImageModel {
                                             uri.toString());
                                     String uploadId = mDatabaseRef.push().getKey();
                                     mDatabaseRef.child(uploadId).setValue(upload);
-                                    String path = "stars.jpg";
+                                    names[1]= uploadId;
+                                    controller.getIdController(names);
                                 }
                             });
                         }
@@ -103,9 +107,11 @@ public class addImageModel {
 
     public void uploadNewImage(String imagePath, String ImageName){
         DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Users").child(id).child("processed");
+        String names[] = new String[2];
         long time = new Date().getTime();
         StorageReference storageRef = FirebaseStorage.getInstance().getReference("processed").
                 child(id).child(time + "");
+        names[0] = time + "";
         storageRef.putFile(Uri.fromFile(new File(imagePath)))
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
@@ -124,9 +130,9 @@ public class addImageModel {
                                 Upload upload = new Upload(name,
                                         uri.toString());
                                 String uploadId = databaseRef.push().getKey();
+                                names[1]= uploadId;
                                 databaseRef.child(uploadId).setValue(upload);
-                                controller.setImageController(uri.toString());
-                                controller.toast_controller("Algorithm successful");
+                                controller.setImageController(uri.toString(), names);
                             }
                         });
                     }
