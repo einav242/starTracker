@@ -20,6 +20,7 @@ public class addImageController {
     public void setProgressController(int num){
         view.setProgressView(num);
     }
+
     public void uploadFileController(Bitmap imageBitmap, String name){
         this.model.upload(imageBitmap,name);
     }

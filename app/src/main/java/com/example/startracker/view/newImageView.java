@@ -26,6 +26,7 @@ public class newImageView extends AppCompatActivity {
     private String refProcessedId;
     private String storageId;
     private String storageProcessedId;
+    private int flag;
 
 
     @Override
@@ -43,6 +44,7 @@ public class newImageView extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             this.id = extras.getString("key");
+            this.flag = Integer.parseInt(extras.getString("flag"));
             this.ImageUrl = extras.getString("url");
             this.refId = extras.getString("refId");
             this.storageId = extras.getString("storageId");
@@ -58,7 +60,7 @@ public class newImageView extends AppCompatActivity {
         mButtonDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                controller.deleteImageController(refId,refProcessedId,storageId,storageProcessedId,0);
+                controller.deleteImageController(refId,refProcessedId,storageId,storageProcessedId,0,flag);
             }
         });
 
@@ -67,6 +69,10 @@ public class newImageView extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(newImageView.this, ActivityMenuView.class);
                 intent.putExtra("key", id);
+                intent.putExtra("flag","0");
+                intent.putExtra("url", "0");
+                intent.putExtra("idStorage","0");
+                intent.putExtra("idData","0");
                 startActivity(intent);
                 finish();
             }
@@ -78,11 +84,15 @@ public class newImageView extends AppCompatActivity {
                 builder.setMessage("Choose your option ?");
                 builder.setCancelable(false);
                 builder.setPositiveButton("delete and try again", (DialogInterface.OnClickListener) (dialog, which) -> {
-                    controller.deleteImageController(refId,refProcessedId,storageId,storageProcessedId,1);
+                    controller.deleteImageController(refId,refProcessedId,storageId,storageProcessedId,1, flag);
                 });
                 builder.setNegativeButton("save and try again", (DialogInterface.OnClickListener) (dialog, which) -> {
                     Intent intent = new Intent(newImageView.this, addImageView.class);
                     intent.putExtra("key", id);
+                    intent.putExtra("flag","0");
+                    intent.putExtra("url", "0");
+                    intent.putExtra("idStorage","0");
+                    intent.putExtra("idData","0");
                     startActivity(intent);
                     finish();
                 });
@@ -106,6 +116,10 @@ public class newImageView extends AppCompatActivity {
     public void passPageAdd(){
         Intent intent = new Intent(newImageView.this, addImageView.class);
         intent.putExtra("key", id);
+        intent.putExtra("flag","0");
+        intent.putExtra("url", "0");
+        intent.putExtra("idStorage","0");
+        intent.putExtra("idData","0");
         startActivity(intent);
         finish();
     }

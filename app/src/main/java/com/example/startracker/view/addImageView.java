@@ -25,6 +25,11 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.example.startracker.controller.addImageController;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import android.widget.Button;
@@ -55,6 +60,9 @@ public class addImageView extends AppCompatActivity {
     private String refProcessedId;
     private String storageId;
     private String storageProcessedId;
+    private String url;
+    private int flag;
+    private String idStorage;
 
 
     @Override
@@ -66,14 +74,22 @@ public class addImageView extends AppCompatActivity {
         finish();
     }
 
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_image);
+        mImageView = findViewById(R.id.image_view);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             this.id = extras.getString("key");
+            this.flag = Integer.parseInt(extras.getString("flag"));
+            if(flag==1){
+                this.url = extras.getString("url");
+                Picasso.get().load(url).into(mImageView);
+                this.idStorage = extras.getString("idStorage");
+                this.refId = extras.getString("idData");
+                this.storageId = this.idStorage;
+            }
         }
         this.controller = new addImageController(this,id);
 
@@ -85,7 +101,6 @@ public class addImageView extends AppCompatActivity {
         mButtonChooseImage = findViewById(R.id.button_choose_image);
         mButtonUpload = findViewById(R.id.button_algo);
         mEditTextFileName = findViewById(R.id.edit_text_file_name);
-        mImageView = findViewById(R.id.image_view);
         mProgressBar = findViewById(R.id.progress_bar);
         mButtonChooseImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,7 +123,11 @@ public class addImageView extends AppCompatActivity {
                         mEditTextFileName.requestFocus();
                     }
                     else{
-                        controller.uploadFileController(imageBitmap,mEditTextFileName.getText().toString());
+                        if(flag!=1){
+                            controller.uploadFileController(imageBitmap,mEditTextFileName.getText().toString());
+                        }else{
+                            saveImageToStorage(null);
+                        }
                     }
             }
         });
@@ -170,6 +189,25 @@ public class addImageView extends AppCompatActivity {
                 e.printStackTrace();
                 Toast.makeText(this, "There was an error while saving the image", Toast.LENGTH_SHORT).show();
             }
+        }else if(this.flag == 1){
+            String fileName = "stars.jpg";
+            StorageReference storageRef = FirebaseStorage.getInstance().getReference("Uploads").child(id).child(this.idStorage);
+
+            final File file = new File(getExternalFilesDir(null), fileName);
+            storageRef.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    saveImageToComputer();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    exception.printStackTrace();
+                    Toast.makeText(addImageView.this, "There was an error while saving the image", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+
         }
     }
 
@@ -186,6 +224,7 @@ public class addImageView extends AppCompatActivity {
         this.storageProcessedId = names[0];
         Intent intent = new Intent(addImageView.this , newImageView.class);
         intent.putExtra("key",id);
+        intent.putExtra("flag",this.flag+"");
         intent.putExtra("url",ImageUrl);
         intent.putExtra("refId",this.refId);
         intent.putExtra("storageId",this.storageId);

@@ -26,4 +26,12 @@ public class ImagesActivityController {
     public void getImagesController() {
         model.getImages();
     }
+
+    public void deleteItemController(String realDataId, String storageId) {
+        model.deleteItemModel(realDataId, storageId);
+    }
+
+    public void passThisPage() {
+        view.passThisPageView();
+    }
 }

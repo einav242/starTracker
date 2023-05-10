@@ -77,9 +77,9 @@ public class addImageModel {
                             imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
-                                    Upload upload = new Upload(name,
-                                            uri.toString());
                                     String uploadId = mDatabaseRef.push().getKey();
+                                    Upload upload = new Upload(name,
+                                            uri.toString(),uploadId,names[0]);
                                     mDatabaseRef.child(uploadId).setValue(upload);
                                     names[1]= uploadId;
                                     controller.getIdController(names);
@@ -127,9 +127,9 @@ public class addImageModel {
                                     }
                                 }, 500);
                                 String name = ImageName +"_processed";
-                                Upload upload = new Upload(name,
-                                        uri.toString());
                                 String uploadId = databaseRef.push().getKey();
+                                Upload upload = new Upload(name,
+                                        uri.toString(),uploadId,names[0]);
                                 names[1]= uploadId;
                                 databaseRef.child(uploadId).setValue(upload);
                                 controller.setImageController(uri.toString(), names);

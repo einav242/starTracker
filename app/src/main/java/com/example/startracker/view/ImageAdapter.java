@@ -22,11 +22,13 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     private Context mContext;
     private List<Upload> mUploads;
     private int flag;
+    private ImagesActivityView images;
 
-    public ImageAdapter(Context context, List<Upload> uploads, int flag) {
+    public ImageAdapter(Context context, List<Upload> uploads, int flag, ImagesActivityView images) {
         mContext = context;
         mUploads = uploads;
         this.flag = flag;
+        this.images = images;
     }
 
     @Override
@@ -47,6 +49,20 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         Picasso.get().load(uploadCurrent.getImageUrl()) .fit()
                 .centerCrop()
                 .into(holder.imageView);
+        holder.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                images.deleteItemView(uploadCurrent.getRealDataId(), uploadCurrent.getStorageId());
+            }
+        });
+        if(flag == 0){
+            holder.algo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    images.algo(uploadCurrent.getImageUrl() ,uploadCurrent.getStorageId(),uploadCurrent.getRealDataId());
+                }
+            });
+        }
     }
 
     @Override
