@@ -3,13 +3,12 @@ package com.example.startracker.model;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Handler;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.example.startracker.controller.addImageController;
 import com.example.startracker.entities.Upload;
-import com.example.startracker.view.addImageView;
+import com.example.startracker.entities.star;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
@@ -18,17 +17,11 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.Date;
+import java.util.List;
 
 public class addImageModel {
     addImageController controller;
@@ -57,6 +50,7 @@ public class addImageModel {
         if (imageBitmap!=null) {
             String names[] = new String[2];
             long time = new Date().getTime();
+            Date date = new Date(time);
             StorageReference imageRef = mStorageRef.child(time + "");
             names[0] = time + "";
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -78,11 +72,13 @@ public class addImageModel {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     String uploadId = mDatabaseRef.push().getKey();
+                                    String url = uri.toString();
                                     Upload upload = new Upload(name,
-                                            uri.toString(),uploadId,names[0]);
+                                            url,uploadId,names[0]);
                                     mDatabaseRef.child(uploadId).setValue(upload);
+                                    System.out.println("url= "+upload.getImageUrl());
                                     names[1]= uploadId;
-                                    controller.getIdController(names);
+                                    controller.getIdController(names, upload.getImageUrl());
                                 }
                             });
                         }
@@ -145,4 +141,15 @@ public class addImageModel {
                 });
     }
 
+    public void addStarsModel(String refId, List<star> stars, String imageUrl) {
+       FirebaseDatabase.getInstance().getReference("Users").child(id).child("processed").
+                child(refId).child("stars").setValue(stars).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+
+                    }
+                });
+       controller.passPage(imageUrl);
+
+    }
 }

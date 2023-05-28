@@ -88,10 +88,6 @@ public class ActivityMenuView extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(ActivityMenuView.this, addImageView.class);
                 intent.putExtra("key",id);
-                intent.putExtra("flag","0");
-                intent.putExtra("url", "0");
-                intent.putExtra("idStorage","0");
-                intent.putExtra("idData","0");
                 startActivity(intent);
                 finish();
             }

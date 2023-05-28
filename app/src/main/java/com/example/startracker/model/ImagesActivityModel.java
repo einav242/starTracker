@@ -17,19 +17,25 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class ImagesActivityModel {
     ImagesActivityController controller;
     private DatabaseReference mDatabaseRef;
     private List<Upload> mUploads;
     private StorageReference mStorageRef;
+    String id;
 
     public ImagesActivityModel(ImagesActivityController controller, String id, int flag) {
         this.controller = controller;
+        this.id = id;
         if(flag == 0){
             mDatabaseRef = FirebaseDatabase.getInstance().getReference("Users").child(id).child("Uploads");
             mStorageRef = FirebaseStorage.getInstance().getReference("Uploads").child(id);
@@ -42,11 +48,30 @@ public class ImagesActivityModel {
     }
 
      public void getImages(){
+
          mDatabaseRef.addValueEventListener(new ValueEventListener() {
              @Override
              public void onDataChange(DataSnapshot dataSnapshot) {
                  for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                      Upload upload = postSnapshot.getValue(Upload.class);
+                     StorageReference storageReference = FirebaseStorage.getInstance().getReference()
+                             .child("Uploads")
+                             .child(id)
+                             .child(upload.getStorageId());
+                     storageReference.getMetadata().addOnSuccessListener(new OnSuccessListener<StorageMetadata>() {
+                         @Override
+                         public void onSuccess(StorageMetadata storageMetadata) {
+                             long timestamp = storageMetadata.getCreationTimeMillis();
+                             Date date = new Date(timestamp);
+                             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault());
+                             String formattedDate = sdf.format(date);
+                             System.out.println("date: "+formattedDate);
+                             if (storageMetadata.getCustomMetadata("location") != null) {
+                                 String location = storageMetadata.getCustomMetadata("location");
+                                 System.out.println("location:  "+location);
+                             }
+                         }
+                     });
                      mUploads.add(upload);
                  }
 

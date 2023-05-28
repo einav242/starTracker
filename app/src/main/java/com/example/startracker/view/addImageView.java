@@ -1,12 +1,9 @@
 package com.example.startracker.view;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -25,12 +22,10 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.example.startracker.controller.addImageController;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.storage.FileDownloadTask;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
+import com.example.startracker.entities.ImageRequest;
+import com.example.startracker.entities.ImageResponse;
+import com.example.startracker.entities.serverAPI;
+import com.example.startracker.entities.star;
 
 import android.widget.Button;
 import android.widget.EditText;
@@ -42,6 +37,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 public class addImageView extends AppCompatActivity {
     private static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -60,9 +62,7 @@ public class addImageView extends AppCompatActivity {
     private String refProcessedId;
     private String storageId;
     private String storageProcessedId;
-    private String url;
-    private int flag;
-    private String idStorage;
+    private String coordinates;
 
 
     @Override
@@ -82,14 +82,6 @@ public class addImageView extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             this.id = extras.getString("key");
-            this.flag = Integer.parseInt(extras.getString("flag"));
-            if(flag==1){
-                this.url = extras.getString("url");
-                Picasso.get().load(url).into(mImageView);
-                this.idStorage = extras.getString("idStorage");
-                this.refId = extras.getString("idData");
-                this.storageId = this.idStorage;
-            }
         }
         this.controller = new addImageController(this,id);
 
@@ -98,6 +90,7 @@ public class addImageView extends AppCompatActivity {
         }
         Python py = Python.getInstance();
         pyobj = py.getModule("script");
+        this.coordinates = "";
         mButtonChooseImage = findViewById(R.id.button_choose_image);
         mButtonUpload = findViewById(R.id.button_algo);
         mEditTextFileName = findViewById(R.id.edit_text_file_name);
@@ -123,11 +116,7 @@ public class addImageView extends AppCompatActivity {
                         mEditTextFileName.requestFocus();
                     }
                     else{
-                        if(flag!=1){
                             controller.uploadFileController(imageBitmap,mEditTextFileName.getText().toString());
-                        }else{
-                            saveImageToStorage(null);
-                        }
                     }
             }
         });
@@ -142,7 +131,6 @@ public class addImageView extends AppCompatActivity {
         mProgressBar.setProgress(num);
     }
 
-
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
@@ -153,7 +141,6 @@ public class addImageView extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             this.imageBitmap = (Bitmap) extras.get("data");
@@ -184,47 +171,47 @@ public class addImageView extends AppCompatActivity {
                 FileOutputStream fo = new FileOutputStream(file);
                 fo.write(bytes.toByteArray());
                 fo.close();
-                saveImageToComputer();
+                draw_stars();
             } catch (IOException e) {
                 e.printStackTrace();
                 Toast.makeText(this, "There was an error while saving the image", Toast.LENGTH_SHORT).show();
             }
-        }else if(this.flag == 1){
-            String fileName = "stars.jpg";
-            StorageReference storageRef = FirebaseStorage.getInstance().getReference("Uploads").child(id).child(this.idStorage);
-
-            final File file = new File(getExternalFilesDir(null), fileName);
-            storageRef.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                    saveImageToComputer();
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-                    exception.printStackTrace();
-                    Toast.makeText(addImageView.this, "There was an error while saving the image", Toast.LENGTH_SHORT).show();
-                }
-            });
-
-
         }
     }
 
-    public  void saveImageToComputer() {
-        String deviceFilePath = "/storage/emulated/0/Android/data/com.example.startracker/files/stars.jpg";
-        PyObject obj =  pyobj.callAttr("download_image_from_firebase_storage",deviceFilePath, "");
-        String path = obj.toString();
-        controller.uploadNewImageController(path, mEditTextFileName.getText().toString());
+    public void useAlgorithm(String url) {
+        ImageRequest imageRequest = new ImageRequest(url);
+        Call<ImageResponse> ImageResponseCall = serverAPI.getService().algorithm(imageRequest);
+        ImageResponseCall.enqueue(new Callback<ImageResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<ImageResponse> call, @NonNull Response<ImageResponse> response) {
+                if(response.isSuccessful()){
+                    ImageResponse res = response.body();
+                    assert res != null;
+                    coordinates = res.getStars_id();
+                    saveImageToStorage(imageBitmap);
+                    System.out.println(res.getStars_id());
+                }else{
+                    controller.toast_controller("response error");
+                }
+            }
+            @Override
+            public void onFailure(Call<ImageResponse> call, Throwable t) {
+                controller.toast_controller("error");
+            }
+        });
     }
 
-    public void pass_to_newImage(String ImageUrl, String[] names){
+    public void getProcessedId(String ImageUrl,String[] names){
         this.setToastView("Algorithm successful");
         this.refProcessedId = names[1];
         this.storageProcessedId = names[0];
+        addStars(ImageUrl);
+    }
+
+    public void pass_to_newImage(String ImageUrl){
         Intent intent = new Intent(addImageView.this , newImageView.class);
         intent.putExtra("key",id);
-        intent.putExtra("flag",this.flag+"");
         intent.putExtra("url",ImageUrl);
         intent.putExtra("refId",this.refId);
         intent.putExtra("storageId",this.storageId);
@@ -234,12 +221,52 @@ public class addImageView extends AppCompatActivity {
         finish();
     }
 
-    public void getIdView(String[] names){
-        this.refId = names[1];
-        this.storageId = names[0];
-        saveImageToStorage(imageBitmap);
+    public  void draw_stars() {
+        String deviceFilePath = "/storage/emulated/0/Android/data/com.example.startracker/files/stars.jpg";
+        System.out.println("coordinates: "+coordinates);
+        PyObject obj =  pyobj.callAttr("draw_image",deviceFilePath, this.coordinates);
+        String path = obj.toString();
+        System.out.println("path= "+path);
+        controller.uploadNewImageController(path, mEditTextFileName.getText().toString());
     }
 
+    public void addStars(String imageUrl){
+        List<star> stars = new ArrayList<>();
+        String[] st_split = this.coordinates.split("\\[")[1].split("\\]")[0].split(",");
+        int count = 0;
+        int id_star = 0;
+        String name = "";
+        float x = 0.0f;
+        float y = 0.0f;
+
+        for (String s : st_split) {
+            if (s.contains("(")) {
+                count = 1;
+                id_star = Integer.parseInt(s.split("\\(")[1]);
+            } else if (s.contains(")")) {
+                count = 0;
+                float r = Float.parseFloat(s.split("\\)")[0]);
+                star new_star = new star(id_star+"", name, x+"", y+"", r+"");
+                stars.add(new_star);
+            } else {
+                count += 1;
+                if (count == 2) {
+                    name = s;
+                } else if (count == 3) {
+                    x = Float.parseFloat(s);
+                } else if (count == 4) {
+                    y = Float.parseFloat(s);
+                }
+            }
+        }
+        controller.addStarsController(this.refProcessedId, stars, imageUrl);
+    }
+
+    public void getIdView(String[] names, String url){
+        this.refId = names[1];
+        this.storageId = names[0];
+        useAlgorithm(url);
+    }
 }
 
 

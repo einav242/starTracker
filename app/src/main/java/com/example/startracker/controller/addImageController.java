@@ -2,8 +2,11 @@ package com.example.startracker.controller;
 
 import android.graphics.Bitmap;
 
+import com.example.startracker.entities.star;
 import com.example.startracker.model.addImageModel;
 import com.example.startracker.view.addImageView;
+
+import java.util.List;
 
 public class addImageController {
     addImageModel model;
@@ -30,13 +33,20 @@ public class addImageController {
     }
 
     public void setImageController(String toString, String[] names) {
-        view.pass_to_newImage(toString, names);
+        view.getProcessedId(toString, names);
     }
 
-    public void getIdController(String[] names){
-        this.view.getIdView(names);
+    public void getIdController(String[] names, String url){
+        this.view.getIdView(names, url);
     }
 
 
+    public void addStarsController(String refId, List<star> stars, String imageUrl) {
+        model.addStarsModel(refId, stars, imageUrl);
+    }
+
+    public void passPage(String imageUrl) {
+        view.pass_to_newImage(imageUrl);
+    }
 }
 

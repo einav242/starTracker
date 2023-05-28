@@ -27,20 +27,18 @@ public class newImageModel {
         mDatabaseRefProcessed = FirebaseDatabase.getInstance().getReference("Users").child(id).child("processed");
     }
 
-    public void deleteImageModel( String refId, String refProcessedId, String storageId,String storageProcessedId, int flag, int flag1){
-        if(flag1==0){
-            mDatabaseRef.child(refId).removeValue()
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                        }
-                    });
-        }
+    public void deleteImageModel( String refId, String refProcessedId, String storageId,String storageProcessedId, int flag){
+        mDatabaseRef.child(refId).removeValue()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                    }
+                });
         mDatabaseRefProcessed.child(refProcessedId).removeValue()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -52,19 +50,17 @@ public class newImageModel {
                     public void onFailure(@NonNull Exception e) {
                     }
                 });
-        if(flag1==0){
-            mStorageRef.child(storageId).delete()
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                        }
-                    });
-        }
+        mStorageRef.child(storageId).delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                    }
+                });
         mStorageRefProcessed.child(storageProcessedId).delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override

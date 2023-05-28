@@ -11,8 +11,8 @@ public class newImageController {
         this.view = view;
         this.model = new newImageModel(this, id);
     }
-    public void deleteImageController( String refId, String refProcessedId, String storageId,String storageProcessedId, int flag, int flag1){
-        this.model.deleteImageModel(refId,refProcessedId,storageId,storageProcessedId, flag, flag1);
+    public void deleteImageController( String refId, String refProcessedId, String storageId,String storageProcessedId, int flag){
+        this.model.deleteImageModel(refId,refProcessedId,storageId,storageProcessedId, flag);
     }
 
     public void passPageMenuController(){
