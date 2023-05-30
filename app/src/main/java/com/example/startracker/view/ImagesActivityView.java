@@ -29,13 +29,8 @@ import java.util.List;
 public class ImagesActivityView extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private ImageAdapter mAdapter;
-    private ProgressBar mProgressCircle;
     private String id;
     private ImagesActivityController controller;
-    private int flag;
-    private String str_flag;
-    private PyObject pyobj;
-
 
     @Override
     public void onBackPressed() {
@@ -53,32 +48,26 @@ public class ImagesActivityView extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             this.id = extras.getString("key");
-            this.flag =Integer.parseInt(extras.getString("flag")) ;
-            this.str_flag = extras.getString("flag");
-
         }
-        this.controller = new ImagesActivityController(this, id, flag);
+        this.controller = new ImagesActivityController(this, id);
         if(!Python.isStarted()){
             Python.start(new AndroidPlatform(this));
         }
         Python py = Python.getInstance();
-        pyobj = py.getModule("script");
         mRecyclerView = findViewById(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mProgressCircle = findViewById(R.id.progress_circle);
         controller.getImagesController();
     }
 
     public void addAdapter(List<Upload> mUploads){
-        mAdapter = new ImageAdapter(ImagesActivityView.this, mUploads, this.flag, this);
+        mAdapter = new ImageAdapter(ImagesActivityView.this, mUploads,this);
         mRecyclerView.setAdapter(mAdapter);
-        mProgressCircle.setVisibility(View.INVISIBLE);
+
     }
 
     public void setToastView(String message) {
         Toast.makeText(ImagesActivityView.this, message, Toast.LENGTH_SHORT).show();
-        mProgressCircle.setVisibility(View.INVISIBLE);
     }
 
     public void deleteItemView(String realDataId, String storageId) {
@@ -88,15 +77,13 @@ public class ImagesActivityView extends AppCompatActivity {
     public void passThisPageView() {
         Intent intent = new Intent(ImagesActivityView.this, ImagesActivityView.class);
         intent.putExtra("key",id);
-        intent.putExtra("flag",str_flag);
         startActivity(intent);
-
     }
 
     public  void algo(String ImageUrl, String idStorage, String idData) {
-        Intent intent = new Intent(ImagesActivityView.this, addImageView.class);
+        Intent intent = new Intent(ImagesActivityView.this, searchStarsView.class);
         intent.putExtra("key",id);
-        intent.putExtra("flag","1");
+        intent.putExtra("flag",1);
         intent.putExtra("url", ImageUrl);
         intent.putExtra("idStorage",idStorage);
         intent.putExtra("idData",idData);

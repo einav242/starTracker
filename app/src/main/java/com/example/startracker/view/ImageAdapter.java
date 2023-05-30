@@ -21,25 +21,19 @@ import java.util.List;
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
     private Context mContext;
     private List<Upload> mUploads;
-    private int flag;
     private ImagesActivityView images;
 
-    public ImageAdapter(Context context, List<Upload> uploads, int flag, ImagesActivityView images) {
+    public ImageAdapter(Context context, List<Upload> uploads, ImagesActivityView images) {
         mContext = context;
         mUploads = uploads;
-        this.flag = flag;
         this.images = images;
     }
 
     @Override
     public ImageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v;
-        if(this.flag == 0){
-            v = LayoutInflater.from(mContext).inflate(R.layout.image_item, parent, false);
-        }else{
-            v = LayoutInflater.from(mContext).inflate(R.layout.image_processed_item, parent, false);
-        }
-        return new ImageViewHolder(v, this.flag);
+        v = LayoutInflater.from(mContext).inflate(R.layout.image_item, parent, false);
+        return new ImageViewHolder(v);
     }
 
     @Override
@@ -55,14 +49,13 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
                 images.deleteItemView(uploadCurrent.getRealDataId(), uploadCurrent.getStorageId());
             }
         });
-        if(flag == 0){
-            holder.algo.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    images.algo(uploadCurrent.getImageUrl() ,uploadCurrent.getStorageId(),uploadCurrent.getRealDataId());
-                }
-            });
-        }
+        holder.algo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                images.algo(uploadCurrent.getImageUrl() ,uploadCurrent.getStorageId(),uploadCurrent.getRealDataId());
+            }
+        });
+
     }
 
     @Override
@@ -77,14 +70,13 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         public Button algo;
 
 
-        public ImageViewHolder(View itemView, int flag) {
+        public ImageViewHolder(View itemView) {
             super(itemView);
             textViewName = itemView.findViewById(R.id.text_view_name);
             imageView = itemView.findViewById(R.id.image_view_upload);
             delete = itemView.findViewById(R.id.delete_Button);
-            if(flag == 0){
-                algo = itemView.findViewById(R.id.algo_Button);
-            }
+            algo = itemView.findViewById(R.id.algo_Button);
+
         }
     }
 }

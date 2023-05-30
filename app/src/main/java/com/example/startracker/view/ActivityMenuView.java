@@ -46,8 +46,6 @@ public class ActivityMenuView extends AppCompatActivity {
     private static final int REQUEST_CAMERA = 1;
     private static final int REQUEST_GALLERY = 2;
     private ImageButton add;
-    private ImageButton gallery;
-    private ImageButton processed;
     private ImageButton discovered;
     private Button logout;
     private TextView title;
@@ -66,8 +64,6 @@ public class ActivityMenuView extends AppCompatActivity {
         }
         this.controller = new ActivityMenuController(this, id);
         this.add = findViewById(R.id.imageButton2);
-        this.gallery = findViewById(R.id.imageButton7);
-        this.processed = findViewById(R.id.imageButton8);
         this.discovered = findViewById(R.id.imageButton10);
         this.logout = findViewById(R.id.singUp_LogOut);
         this.title = findViewById(R.id.txtMessage);
@@ -93,25 +89,15 @@ public class ActivityMenuView extends AppCompatActivity {
             }
         });
 
-        gallery.setOnClickListener(new View.OnClickListener() {
+        discovered.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ActivityMenuView.this, ImagesActivityView.class);
                 intent.putExtra("key",id);
-                intent.putExtra("flag","0");
                 startActivity(intent);
             }
         });
 
-        processed.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(ActivityMenuView.this, ImagesActivityView.class);
-                intent.putExtra("key",id);
-                intent.putExtra("flag","1");
-                startActivity(intent);
-            }
-        });
     }
 
 

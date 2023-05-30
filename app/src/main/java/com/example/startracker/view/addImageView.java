@@ -1,9 +1,12 @@
 package com.example.startracker.view;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -13,12 +16,16 @@ import com.chaquo.python.android.AndroidPlatform;
 import com.example.startracker.R;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.provider.MediaStore;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.style.ImageSpan;
 import android.view.View;
 
 import com.example.startracker.controller.addImageController;
@@ -48,6 +55,7 @@ import retrofit2.Response;
 public class addImageView extends AppCompatActivity {
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_PERMISSION_CODE = 2;
+    private static final int  REQUEST_IMAGE_PICK = 3;
 
     private Button mButtonChooseImage;
     private Button mButtonUpload;
@@ -104,7 +112,26 @@ public class addImageView extends AppCompatActivity {
                         return;
                     }
                 }
-                dispatchTakePictureIntent();
+                Drawable cameraIcon = getResources().getDrawable(R.drawable.camera_icon);
+                Drawable galleryIcon = getResources().getDrawable(R.drawable.gallery_icon);
+                AlertDialog.Builder builder = new AlertDialog.Builder(addImageView.this);
+                builder.setMessage("Select image from")
+                        .setCancelable(false)
+                        .setPositiveButton("Cancel", (dialog, which) -> dialog.dismiss())
+                        .setNegativeButton("Gallery", (dialog, which) -> openFileChooser())
+                        .setNeutralButton("Camera", (dialog, which) -> dispatchTakePictureIntent());
+
+                builder.setNeutralButtonIcon(cameraIcon);
+                builder.setNegativeButtonIcon(galleryIcon);
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+
+                Button positiveButton = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
+                Button negativeButton = alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+                Button neutralButton = alertDialog.getButton(DialogInterface.BUTTON_NEUTRAL);
+                positiveButton.setAllCaps(false);
+                negativeButton.setAllCaps(false);
+                neutralButton.setAllCaps(false);
             }
         });
 
@@ -123,12 +150,19 @@ public class addImageView extends AppCompatActivity {
 
     }
 
+
     public void setToastView(String msg){
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
     public void setProgressView(int num){
         mProgressBar.setProgress(num);
+    }
+
+    private void openFileChooser() {
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        galleryIntent.setType("image/*");
+        startActivityForResult(galleryIntent, REQUEST_IMAGE_PICK);
     }
 
     private void dispatchTakePictureIntent() {
@@ -141,9 +175,17 @@ public class addImageView extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+        if (requestCode == REQUEST_IMAGE_PICK && resultCode == RESULT_OK) {
+            Uri selectedImageUri = data.getData();
+            try {
+                imageBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
+                mImageView.setImageBitmap(imageBitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
-            this.imageBitmap = (Bitmap) extras.get("data");
+            imageBitmap = (Bitmap) extras.get("data");
             mImageView.setImageBitmap(imageBitmap);
         }
     }
@@ -190,7 +232,6 @@ public class addImageView extends AppCompatActivity {
                     assert res != null;
                     coordinates = res.getStars_id();
                     saveImageToStorage(imageBitmap);
-                    System.out.println(res.getStars_id());
                 }else{
                     controller.toast_controller("response error");
                 }
@@ -223,11 +264,9 @@ public class addImageView extends AppCompatActivity {
 
     public  void draw_stars() {
         String deviceFilePath = "/storage/emulated/0/Android/data/com.example.startracker/files/stars.jpg";
-        System.out.println("coordinates: "+coordinates);
         PyObject obj =  pyobj.callAttr("draw_image",deviceFilePath, this.coordinates);
         String path = obj.toString();
-        System.out.println("path= "+path);
-        controller.uploadNewImageController(path, mEditTextFileName.getText().toString());
+        controller.uploadNewImageController(path, mEditTextFileName.getText().toString(), this.coordinates, this.storageId, this.refId);
     }
 
     public void addStars(String imageUrl){

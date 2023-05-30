@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="Hello"
-        android:textColor="#AB2196F3"
+        android:textColor="#ABCDF321"
         android:textSize="34sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -59,88 +59,34 @@
         app:layout_constraintStart_toStartOf="@+id/imageButton2"
         app:layout_constraintTop_toBottomOf="@+id/imageButton2" />
 
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="152dp"
-        android:layout_height="64dp"
-        android:text="processed pictures"
-        android:textAlignment="center"
-        android:textColor="#AB2196F3"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/imageButton8"
-        app:layout_constraintStart_toStartOf="@+id/imageButton8"
-        app:layout_constraintTop_toBottomOf="@+id/imageButton8" />
-
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="gallery"
-        android:textColor="#AB2196F3"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/imageButton7"
-        app:layout_constraintStart_toStartOf="@+id/imageButton7"
-        app:layout_constraintTop_toBottomOf="@+id/imageButton7" />
-
 
     <ImageButton
         android:id="@+id/imageButton2"
         android:layout_width="160dp"
         android:layout_height="140dp"
-        android:layout_marginEnd="240dp"
-        android:layout_marginBottom="450dp"
         android:background="@android:color/transparent"
         android:contentDescription="i_got_lost"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.115"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/telescope" />
-
-
-    <ImageButton
-        android:id="@+id/imageButton7"
-        android:layout_width="160dp"
-        android:layout_height="140dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="450dp"
-        android:background="@android:color/transparent"
-        android:contentDescription="shop"
-        android:scaleType="fitCenter"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/gallery" />
-
-
-    <ImageButton
-        android:id="@+id/imageButton8"
-        android:layout_width="160dp"
-        android:layout_height="140dp"
-        android:layout_marginEnd="240dp"
-        android:layout_marginBottom="230dp"
-        android:background="@android:color/transparent"
-        android:contentDescription="edit"
-        android:scaleType="fitCenter"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/processing" />
-
 
     <ImageButton
         android:id="@+id/imageButton10"
         android:layout_width="160dp"
         android:layout_height="140dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="230dp"
         android:background="@android:color/transparent"
-
         android:contentDescription="information"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.904"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/astronomy" />
-
 
     <Button
         android:id="@+id/singUp_LogOut"
@@ -158,6 +104,31 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="390dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="128dp"
+        android:text="start to find stars"
+        android:textColor="#ABCDF321"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.761"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="58dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="135dp"
+        android:layout_marginEnd="20dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toEndOf="@+id/textView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/favorite" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -28,8 +28,8 @@ public class addImageController {
         this.model.upload(imageBitmap,name);
     }
 
-    public void uploadNewImageController(String path, String name) {
-        model.uploadNewImage(path, name);
+    public void uploadNewImageController(String path, String name, String coordinates, String storageId, String uploadId) {
+        model.uploadNewImage(path, name, coordinates, storageId, uploadId);
     }
 
     public void setImageController(String toString, String[] names) {

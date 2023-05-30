@@ -10,9 +10,9 @@ public class ImagesActivityController {
     ImagesActivityView view;
     ImagesActivityModel model;
 
-    public ImagesActivityController(ImagesActivityView view,String id, int flag) {
+    public ImagesActivityController(ImagesActivityView view,String id) {
         this.view = view;
-        this.model = new ImagesActivityModel(this, id, flag);
+        this.model = new ImagesActivityModel(this, id);
     }
     public void setAdapterController(List<Upload> mUploads){
         this.view.addAdapter(mUploads);

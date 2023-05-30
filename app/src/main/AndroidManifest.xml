@@ -71,6 +71,13 @@
                 android:value="" />
         </activity>
         <activity
+            android:name=".view.searchStarsView"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".view.addImageView"
             android:exported="false">
             <meta-data

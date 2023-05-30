@@ -50,7 +50,6 @@ public class addImageModel {
         if (imageBitmap!=null) {
             String names[] = new String[2];
             long time = new Date().getTime();
-            Date date = new Date(time);
             StorageReference imageRef = mStorageRef.child(time + "");
             names[0] = time + "";
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -74,7 +73,7 @@ public class addImageModel {
                                     String uploadId = mDatabaseRef.push().getKey();
                                     String url = uri.toString();
                                     Upload upload = new Upload(name,
-                                            url,uploadId,names[0]);
+                                            url,uploadId,names[0],"");
                                     mDatabaseRef.child(uploadId).setValue(upload);
                                     System.out.println("url= "+upload.getImageUrl());
                                     names[1]= uploadId;
@@ -101,13 +100,12 @@ public class addImageModel {
         }
     }
 
-    public void uploadNewImage(String imagePath, String ImageName){
+    public void uploadNewImage(String imagePath, String ImageName, String coordinates, String storageId, String uploadId){
         DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Users").child(id).child("processed");
         String names[] = new String[2];
-        long time = new Date().getTime();
         StorageReference storageRef = FirebaseStorage.getInstance().getReference("processed").
-                child(id).child(time + "");
-        names[0] = time + "";
+                child(id).child(storageId);
+        names[0] = storageId;
         storageRef.putFile(Uri.fromFile(new File(imagePath)))
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
@@ -122,10 +120,9 @@ public class addImageModel {
                                         controller.setProgressController(0);
                                     }
                                 }, 500);
-                                String name = ImageName +"_processed";
-                                String uploadId = databaseRef.push().getKey();
+                                String name = ImageName;
                                 Upload upload = new Upload(name,
-                                        uri.toString(),uploadId,names[0]);
+                                        uri.toString(),uploadId,names[0], coordinates);
                                 names[1]= uploadId;
                                 databaseRef.child(uploadId).setValue(upload);
                                 controller.setImageController(uri.toString(), names);

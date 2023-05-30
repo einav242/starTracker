@@ -44,7 +44,8 @@
             android:layout_marginTop="-57dp"
             android:layout_marginLeft="200dp"
             android:backgroundTint="#3F51B5"
-            android:text="Algorithm" />
+            android:text="Search by ID"
+            android:textAllCaps="false"/>
 
     </LinearLayout>
 

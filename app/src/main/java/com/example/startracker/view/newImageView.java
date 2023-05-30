@@ -2,6 +2,7 @@ package com.example.startracker.view;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -65,8 +66,15 @@ public class newImageView extends AppCompatActivity {
         mButtonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(newImageView.this, ActivityMenuView.class);
-                intent.putExtra("key", id);
+                Intent intent = new Intent(newImageView.this, searchStarsView.class);
+                intent.putExtra("key",id);
+                intent.putExtra("flag",0);
+                intent.putExtra("url",ImageUrl);
+                intent.putExtra("refId",refId);
+                intent.putExtra("storageId",storageId);
+                intent.putExtra("refProcessedId",refProcessedId);
+                intent.putExtra("storageProcessedId",storageProcessedId);
+                startActivity(intent);
                 finish();
             }
         });

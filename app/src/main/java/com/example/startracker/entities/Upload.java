@@ -5,12 +5,14 @@ public class Upload {
     private String mImageUrl;
     private String realDataId;
     private String storageId;
+    private String coordinates;
+    private String [] stars;
 
     public Upload() {
         //empty constructor needed
     }
 
-    public Upload(String name, String imageUrl, String realDataId, String storageId) {
+    public Upload(String name, String imageUrl, String realDataId, String storageId, String coordinates) {
         if (name.trim().equals("")) {
             name = "No Name";
         }
@@ -18,6 +20,15 @@ public class Upload {
         mImageUrl = imageUrl;
         this.realDataId = realDataId;
         this.storageId = storageId;
+        this.coordinates = coordinates;
+    }
+
+    public String getCoordinates() {
+        return coordinates;
+    }
+
+    public void setCoordinates(String coordinates) {
+        this.coordinates = coordinates;
     }
 
     public String getRealDataId() {
