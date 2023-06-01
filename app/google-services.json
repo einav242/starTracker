@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "544585599550",
+    "project_id": "startracker-40c8d",
+    "storage_bucket": "startracker-40c8d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:544585599550:android:e44a7520f8460cd2cb1f6f",
+        "android_client_info": {
+          "package_name": "com.example.startracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "544585599550-eq6i0b9tnm1gnsopjqmd2a7n2t677dqc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvpZ--Ly5VOIg72O8ddvH5S-dr3Qzb7No"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "544585599550-eq6i0b9tnm1gnsopjqmd2a7n2t677dqc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
