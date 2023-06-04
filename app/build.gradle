@@ -36,7 +36,8 @@ android {
         }
 
         python{
-            buildPython "C:/Users/e2402/AppData/Local/Microsoft/WindowsApps/python3.9.exe"
+            //buildPython "C:/Users/e2402/AppData/Local/Microsoft/WindowsApps/python3.9.exe"
+            buildPython "C:/Users/jonat/AppData/Local/Programs/Python/Python311/python.exe"
         }
     }
 
