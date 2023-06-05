@@ -17,7 +17,7 @@ To use the starTracker application, follow these steps:
 1. Clone the repositorys:<br />
   1.1 git clone https://github.com/einav242/starTracker.git<br />
   1.2 git clone https://github.com/einav242/project_new_space.git<br />
-2. Open the project in Android Studio.
+2. Open "starTracker" project in Android Studio.
 3. Open the build.gradle file at the application level in  Android Studio and modify the following line:<br />
      python{<br />
               buildPython "C:/Users/e2402/AppData/Local/Microsoft/WindowsApps/python3.9.exe"<br />
@@ -28,7 +28,19 @@ to the Python path on your computer. <br />
 uvicorn server:app --reload
 
 
-## Functionalities
-<img width="100" src="photo/צילום מסך 2023-06-01 170642.png">
+## Main Functionality
+<img width="200" src="photo/צילום מסך 2023-06-01 170642.png">
+On the main screen, the user will be able to:
+
+- **Add image–** After clicking on this button, you can choose an image from the gallery or take a photo yourself. 
+Then, you can click on the "Algorithm" button to see the identified stars.
+In the next window, you can choose to delete, save, or take another photo. If you select "save," you will proceed to the next window where you can enter the star's ID using the keyboard, and its corresponding name will be displayed next to it. <br />
+Also, you can see the names of all the stars by clicking on the "Show all the names" button.
+<img width="450" src="photo/תמונה2.png">
+
+- **your discoverd stars–** By clicking on this button, you can view all the captured star images. You can delete an image by using the "Delete" button and find the names of the stars by clicking on the "Search by ID" button.
+<img width="400" src="photo/תמונה1.png">
+
+
 
 
