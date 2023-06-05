@@ -28,7 +28,7 @@ to the Python path on your computer. <br />
 uvicorn server:app --reload
 
 
-## Functionalities
+## Main Functionality
 <img width="200" src="photo/צילום מסך 2023-06-01 170642.png">
 On the main screen, the user will be able to:
 
