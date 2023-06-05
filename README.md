@@ -46,7 +46,7 @@ Also, you can see the names of all the stars by clicking on the "Show all the na
 <img width="400" src="photo/תמונה1.png">
 
 
-<img width="200" src="photo/צילום מסך 2023-06-01 170642.png">(https://youtu.be/EIUpvY9gW8c)
+[![Watch the video](photo/צילום%20מסך%202023-06-01%20170642.png)](https://youtu.be/EIUpvY9gW8c)
 
 
 
