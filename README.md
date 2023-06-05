@@ -45,7 +45,8 @@ Also, you can see the names of all the stars by clicking on the "Show all the na
 - **your discoverd stars–** By clicking on this button, you can view all the captured star images. You can delete an image by using the "Delete" button and find the names of the stars by clicking on the "Search by ID" button.
 <img width="400" src="photo/תמונה1.png">
 
-[![Watch the video]<img width="200" src="photo/צילום מסך 2023-06-01 170642.png">](https://youtu.be/EIUpvY9gW8c)
+
+<img width="200" src="photo/צילום מסך 2023-06-01 170642.png">(https://youtu.be/EIUpvY9gW8c)
 
 
 
