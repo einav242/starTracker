@@ -17,7 +17,7 @@ To use the starTracker application, follow these steps:
 1. Clone the repositorys:<br />
   1.1 git clone https://github.com/einav242/starTracker.git<br />
   1.2 git clone https://github.com/einav242/project_new_space.git<br />
-2. Open the project in Android Studio.
+2. Open "starTracker" project in Android Studio.
 3. Open the build.gradle file at the application level in  Android Studio and modify the following line:<br />
      python{<br />
               buildPython "C:/Users/e2402/AppData/Local/Microsoft/WindowsApps/python3.9.exe"<br />
