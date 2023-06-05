@@ -23,9 +23,13 @@ To use the starTracker application, follow these steps:
               buildPython "C:/Users/e2402/AppData/Local/Microsoft/WindowsApps/python3.9.exe"<br />
         }<br />
 to the Python path on your computer. <br />
-4. Build and run the application on an Android device or emulator.<br />
-5. In a separate open the project directory named "project_new_space" in a Python development environment, such as PyCharm and run the following command in the terminal to start the server:<br />
-uvicorn server:app --reload
+4. Inside entities folder enter to the serverAPI file and change line 19:  <br />```.baseUrl(<your server network address>).client(okHttpClient).build();``` to your network ip address. <br />
+5. Inside res-> xml enter to the network_security_config.xml file and add the following line:<br />
+  ```<domain includeSubdomains="true"><your server network address></domain>```
+6. Build and run the application on an Android device or emulator.<br />
+7. In a separate open the project directory named "project_new_space" in a Python development environment, such as PyCharm and run the following command in the terminal to start the server:<br />
+```uvicorn server:app --host <server network address> --port 8080 --reload``` <br />
+**Note.** Verify that the phone and the server are connected to the same network (Wi-Fi, Ethernet, eg.)
 
 
 ## Main Functionality
@@ -41,6 +45,7 @@ Also, you can see the names of all the stars by clicking on the "Show all the na
 - **your discoverd stars–** By clicking on this button, you can view all the captured star images. You can delete an image by using the "Delete" button and find the names of the stars by clicking on the "Search by ID" button.
 <img width="400" src="photo/תמונה1.png">
 
+[![Watch the video]<img width="200" src="photo/צילום מסך 2023-06-01 170642.png">](https://youtu.be/EIUpvY9gW8c)
 
 
 
