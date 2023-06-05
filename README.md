@@ -14,7 +14,7 @@ All the photos are saved, allowing users to revisit the stars they have already 
 
 ## Installation
 To use the starTracker application, follow these steps:
-1. Clone the repositorys:<br />
+1. Clone the repository's:<br />
   1.1 git clone https://github.com/einav242/starTracker.git<br />
   1.2 git clone https://github.com/einav242/project_new_space.git<br />
 2. Open "starTracker" project in Android Studio.
