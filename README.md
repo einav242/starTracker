@@ -29,6 +29,8 @@ to the Python path on your computer. <br />
 6. Build and run the application on an Android device or emulator.<br />
 7. In a separate open the project directory named "project_new_space" in a Python development environment, such as PyCharm and run the following command in the terminal to start the server:<br />
 ```uvicorn server:app --host <server network address> --port 8080 --reload``` <br />
+or <br />
+```python -m uvicorn server:app --host <server network address> --port 8080 --reload```
 **Note.** Verify that the phone and the server are connected to the same network (Wi-Fi, Ethernet, eg.)
 
 
