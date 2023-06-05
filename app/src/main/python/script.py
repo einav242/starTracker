@@ -2,6 +2,8 @@ import os
 import urllib
 import cv2
 import requests
+from matplotlib import pyplot as plt
+from adjustText import adjust_text
 
 
 class Star:
@@ -13,12 +15,11 @@ class Star:
         self.r = r
 
 
-
 def draw_image(img_path, st: str):
     coordinates = []
     if st == "":
         image = cv2.imread(img_path)
-        filename = "%s_processed.jpg" % img_path
+        filename = "%s_processed.png" % img_path
         cv2.imwrite(filename, image)
         return filename
     st_split = st.split('[')[1].split(']')[0].split(',')
@@ -41,34 +42,26 @@ def draw_image(img_path, st: str):
             elif count == 4:
                 y = float(s)
 
-    # Load image from file
-    image = cv2.imread(img_path)
+    img = cv2.imread(img_path)
+    fig, ax = plt.subplots(ncols=1, figsize=(10, 10))
+    fig.patch.set_facecolor('none')
+    ax.imshow(img, cmap='gray')
+    num = 1
 
-    # Draw circles on the image where there are stars
     for star in coordinates:
-        cv2.circle(image, (int(star.x), int(star.y)), int(star.r) + 5, (0, 255, 255), 5)
-        if star.y <= 20:
-            id_y = int(star.y) + 65
-        elif star.y > image.shape[0]:
-            id_y = int(star.y) - 65
-        else:
-            id_y = int(star.y)
-        if int(star.x) + int(star.r) + 5 <= 30:
-            id_x = int(star.x) + int(star.r) + 70
-        elif int(star.x) + int(star.r) + 400 > image.shape[1]:
-            if int(star.x) + int(star.r) + 5 > image.shape[1]:
-                id_x = int(star.x) + int(star.r) - 70
-            else:
-                id_x = int(star.x) + int(star.r) + 5
-        else:
-            id_x = int(star.x) + int(star.r) + 5
-        text_position = (id_x, id_y)
-        cv2.putText(image, star.id, text_position,
-                    cv2.FONT_HERSHEY_SIMPLEX,
-                    2.5,
-                    (0, 255, 255), 5)
-    filename = "%s_processed.jpg" % img_path
-    cv2.imwrite(filename, image)
+        ax.annotate(star.id + " ", (star.x, star.y), xytext=(star.x, star.y), color='y', fontsize=20,
+                    horizontalalignment='right', verticalalignment='baseline')
+        ax.add_patch(plt.Circle((star.x, star.y), radius=star.r + 10, edgecolor='r', facecolor='none'))
+        num += 1
+
+    plt.tight_layout()
+    plt.axis('off')
+
+    # write an image file
+    filename = "%s_processed.png" % img_path
+    adjust_text(ax.texts, arrowprops=dict(arrowstyle="->", color='r', lw=0.5))
+    plt.savefig(filename, transparent=True)
+
     return filename
 
 
@@ -79,43 +72,27 @@ def draw_by_id(img_path, st: str):
     x_star = float(str_split[2])
     y_star = float(str_split[3])
     r_star = float(str_split[4])
-    image = cv2.imread(img_path)
-    cv2.circle(image, (int(x_star), int(y_star)), int(r_star) + 5, (0, 255, 255), 5)
+    img = cv2.imread(img_path)
+    fig, ax = plt.subplots(ncols=1, figsize=(10, 10))
+    fig.patch.set_facecolor('none')
+    ax.imshow(img, cmap='gray')
+    num = 1
 
-    if y_star <= 20:
-        id_y = int(y_star) + 65
-        name_y = int(y_star) + 150
-    elif y_star > image.shape[0]:
-        id_y = int(y_star) - 65
-        name_y = int(y_star) - 150
-    else:
-        id_y = int(y_star)
-        name_y = int(y_star) - 100
-    if int(x_star) + int(r_star) + 5 <= 30:
-        id_x = int(x_star) + int(r_star) + 70
-        name_x = int(x_star) + int(r_star) + 55
-    elif int(x_star) + int(r_star) + 400 > image.shape[1]:
-        if int(x_star) + int(r_star) + 5 > image.shape[1]:
-            id_x = int(x_star) + int(r_star) - 70
-        else:
-            id_x = int(x_star) + int(r_star) + 5
-        name_x = int(x_star) + int(r_star) - 120
-    else:
-        id_x = int(x_star) + int(r_star) + 5
-        name_x = int(x_star) + int(r_star) + 5
-    name_position = (name_x, name_y)
-    text_position = (id_x, id_y)
-    cv2.putText(image, str(id_star), text_position,
-                cv2.FONT_HERSHEY_SIMPLEX,
-                2.5,
-                (0, 255, 255), 5)
-    cv2.putText(image, str(name_star), name_position,
-                cv2.FONT_HERSHEY_SIMPLEX,
-                2.5,
-                (0, 255, 255), 5)
+    ax.annotate(str(id_star) + " ", (x_star, y_star), xytext=(x_star, y_star), color='y', fontsize=20,
+                horizontalalignment='right', verticalalignment='baseline')
+    ax.text(x_star, y_star, f"{name_star}", color='y', fontsize=20, horizontalalignment='left',
+            verticalalignment='baseline')
+    ax.add_patch(plt.Circle((x_star, y_star), radius=r_star + 10, edgecolor='r', facecolor='none'))
+    num += 1
 
-    filename = "%s_processed.jpg" % img_path
-    cv2.imwrite(filename, image)
+    plt.tight_layout()
+    plt.axis('off')
+
+    # write an image file
+    filename = "%s_processed.png" % img_path
+    adjust_text(ax.texts, arrowprops=dict(arrowstyle="->", color='r', lw=0.5))
+    plt.savefig(filename, transparent=True)
+
     return filename
 
 
@@ -123,7 +100,7 @@ def show_all(img_path, st: str):
     coordinates = []
     if st == "":
         image = cv2.imread(img_path)
-        filename = "%s_processed.jpg" % img_path
+        filename = "%s_processed.png" % img_path
         cv2.imwrite(filename, image)
         return filename
     st_split = st.split('[')[1].split(']')[0].split(',')
@@ -145,44 +122,27 @@ def show_all(img_path, st: str):
                 x = float(s)
             elif count == 4:
                 y = float(s)
-    # Load image from file
-    image = cv2.imread(img_path)
-    # Draw circles on the image where there are stars
-    for star in coordinates:
-        cv2.circle(image, (int(star.x), int(star.y)), int(star.r) + 5, (0, 255, 255), 5)
-        if star.y <= 20:
-            id_y = int(star.y) + 65
-            name_y = int(star.y) + 150
-        elif star.y > image.shape[0]:
-            id_y = int(star.y) - 65
-            name_y = int(star.y) - 150
-        else:
-            id_y = int(star.y)
-            name_y = int(star.y) - 100
-        if int(star.x) + int(star.r) + 5 <= 30:
-            id_x = int(star.x) + int(star.r) + 70
-            name_x = int(star.x) + int(star.r) + 55
-        elif int(star.x) + int(star.r) + 400 > image.shape[1]:
-            if int(star.x) + int(star.r) + 5 > image.shape[1]:
-                id_x = int(star.x) + int(star.r) - 70
-            else:
-                id_x = int(star.x) + int(star.r) + 5
-            name_x = int(star.x) + int(star.r) - 120
-        else:
-            id_x = int(star.x) + int(star.r) + 5
-            name_x = int(star.x) + int(star.r) + 5
-        name_position = (name_x, name_y)
-        text_position = (id_x, id_y)
-        cv2.putText(image, star.id, text_position,
-                    cv2.FONT_HERSHEY_SIMPLEX,
-                    2.5,
-                    (0, 255, 255), 5)
-        cv2.putText(image, str(star.name), name_position,
-                    cv2.FONT_HERSHEY_SIMPLEX,
-                    2.5,
-                    (0, 255, 255), 5)
 
-    # Save the processed image to file
-    filename = "%s_processed.jpg" % img_path
-    cv2.imwrite(filename, image)
+    img = cv2.imread(img_path)
+    fig, ax = plt.subplots(ncols=1, figsize=(10, 10))
+    fig.patch.set_facecolor('none')
+    ax.imshow(img, cmap='gray')
+    num = 1
+
+    for star in coordinates:
+        ax.annotate(star.id + " ", (star.x, star.y), xytext=(star.x, star.y), color='y', fontsize=20,
+                    horizontalalignment='right', verticalalignment='baseline')
+        ax.text(star.x, star.y, f"{star.name}", color='y', fontsize=20, horizontalalignment='left',
+                verticalalignment='baseline')
+        ax.add_patch(plt.Circle((star.x, star.y), radius=star.r + 10, edgecolor='r', facecolor='none'))
+        num += 1
+
+    plt.tight_layout()
+    plt.axis('off')
+
+    # write an image file
+    filename = "%s_processed.png" % img_path
+    adjust_text(ax.texts, arrowprops=dict(arrowstyle="->", color='r', lw=0.5))
+    plt.savefig(filename, transparent=True)
+
     return filename

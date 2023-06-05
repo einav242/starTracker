@@ -20,6 +20,8 @@ android {
                 install "scipy"
                 install "opencv-python-headless"
                 install "requests"
+                install "matplotlib"
+                install "adjustText"
             }
         }
         minSdk 26

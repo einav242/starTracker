@@ -141,13 +141,13 @@ public class addImageView extends AppCompatActivity {
         mButtonUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    if (TextUtils.isEmpty(mEditTextFileName.getText().toString())) {
-                        mEditTextFileName.setError("name cannot be empty");
-                        mEditTextFileName.requestFocus();
-                    }
-                    else{
-                            controller.uploadFileController(imageBitmap,mEditTextFileName.getText().toString());
-                    }
+                if (TextUtils.isEmpty(mEditTextFileName.getText().toString())) {
+                    mEditTextFileName.setError("name cannot be empty");
+                    mEditTextFileName.requestFocus();
+                }
+                else{
+                    controller.uploadFileController(imageBitmap,mEditTextFileName.getText().toString());
+                }
             }
         });
 
@@ -310,7 +310,6 @@ public class addImageView extends AppCompatActivity {
         useAlgorithm(url);
     }
 }
-
 
 
 
