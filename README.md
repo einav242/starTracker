@@ -29,6 +29,18 @@ uvicorn server:app --reload
 
 
 ## Functionalities
-<img width="100" src="photo/צילום מסך 2023-06-01 170642.png">
+<img width="200" src="photo/צילום מסך 2023-06-01 170642.png">
+On the main screen, the user will be able to:
+
+- **Add image–** After clicking on this button, you can choose an image from the gallery or take a photo yourself. 
+Then, you can click on the "Algorithm" button to see the identified stars.
+In the next window, you can choose to delete, save, or take another photo. If you select "save," you will proceed to the next window where you can enter the star's ID using the keyboard, and its corresponding name will be displayed next to it. <br />
+Also, you can see the names of all the stars by clicking on the "Show all the names" button.
+<img width="450" src="photo/תמונה2.png">
+
+- **your discoverd stars–** By clicking on this button, you can view all the captured star images. You can delete an image by using the "Delete" button and find the names of the stars by clicking on the "Search by ID" button.
+<img width="400" src="photo/תמונה1.png">
+
+
 
 
