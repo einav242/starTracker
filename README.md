@@ -24,6 +24,19 @@ The algorithm is based on the following steps:
 2. Extract the stars from the catalog that are within a distance of 2.0 arcmin from the points found in the previous step. This is implemented using the "find_region" function from the Simbad Python library.
 3. Find the stars in the catalog that are closest to the stars in the image by utilizing the k-d tree algorithm for efficient search. This step is implemented by the function "match_coordinates_sky" from the astropy Python library.
 
+### Libraries:
+
+[<img src="photo/Astrometry.png" height="50px">](https://nova.astrometry.net/) &nbsp;&nbsp;&nbsp;
+[<img src="photo/Logo_of_the_Astropy_Project.png" height="50px">](https://www.astropy.org/) &nbsp;&nbsp;&nbsp;
+[<img src="photo/simbad_small.png" height="50px">](http://simbad.u-strasbg.fr/simbad/)
+
+---
+
+**Astrometry.net**: Astrometry.net is a powerful astrometric engine that can identify celestial objects in astronomical images.
+
+**Astropy Project**: Astropy is a community-driven library for astronomy in Python, providing various utilities and tools for working with astronomical data.
+
+**Simbad**: SIMBAD is an astronomical database that provides information on astronomical objects, including their coordinates, magnitudes, and spectra.
 
 ## Installation
 To use the starTracker application, follow these steps:
